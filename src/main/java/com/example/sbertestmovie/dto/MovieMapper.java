@@ -1,6 +1,7 @@
 package com.example.sbertestmovie.dto;
 
 import com.example.sbertestmovie.entity.Movie;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,5 +22,9 @@ public class MovieMapper {
                 movieDto.getReleaseDate(),
                 movieDto.getGenre()
         );
+    }
+
+    public Page<MovieDto> toPageMovieDto(Page<Movie> moviesPage) {
+        return moviesPage.map(this::toMovieDto);
     }
 }
