@@ -49,6 +49,8 @@ public class MovieController {
      * @param movieId идентификатор фильма, который нужно получить
      * @return объект {@link MovieDto} с данными фильма
      */
+
+    @GetMapping("/{movieId}")
     public MovieDto find(@PathVariable Long movieId) {
         return movieService.findById(movieId);
     }

@@ -25,8 +25,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class MovieServiceTests {
@@ -145,7 +144,7 @@ public class MovieServiceTests {
 
     @Test
     public void updateErrorsTest() {
-        when(movieRepository.findById(movieId)).thenReturn(null);
+        when(movieRepository.findById(movieId)).thenReturn(Optional.empty());
 
         Throwable thrown = catchThrowable(() -> {
             movieService.update(movieId, movieDto1);
@@ -162,5 +161,7 @@ public class MovieServiceTests {
         movieService.deleteById(movieId);
 
         verify(movieRepository).deleteById(movieId);
+
+        verifyNoMoreInteractions(movieRepository);
     }
 }
