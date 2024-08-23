@@ -75,7 +75,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getById(Long id) {
         log.debug("СОБЫТИЕ: Получение фильма по id: {}", id);
-        return movieRepository.findById(id).orElseThrow(() -> new NotFoundAnythingException("Фильма с данным id не существует"));
+        return movieRepository.findById(id).orElseThrow(() -> new NotFoundAnythingException("Фильм с введенным id не найден"));
     }
 
     /**
