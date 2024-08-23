@@ -63,6 +63,10 @@ public class MovieServiceTests {
         movieDtosPage = new PageImpl<>(movieDtos, PageRequest.of(0, 10, Sort.by("title")), movieDtos.size());
     }
 
+    /**
+     * Тест получения всех фильмов с поддержкой пагинации.
+     * @result Возвращается страница объектов {@link MovieDto}, соответствующая данным, полученным из репозитория.
+     */
     @Test
     public void findAllTest() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("title"));
@@ -83,6 +87,10 @@ public class MovieServiceTests {
         assertEquals(movieDtos.size(), result.getNumberOfElements());
     }
 
+    /**
+     * Тест поиска фильма по идентификатору.
+     * @result Возвращается объект {@link MovieDto}, соответствующий найденной сущности фильма.
+     */
     @Test
     public void findByIdTest() {
         when(movieRepository.findById(movieId)).thenReturn(Optional.of(movie));
@@ -90,6 +98,10 @@ public class MovieServiceTests {
         assertEquals(movieDto1, movieService.findById(movieId));
     }
 
+    /**
+     * Тест создания нового фильма.
+     * @result Новый фильм сохраняется в базе данных, и возвращается объект {@link MovieDto} с данными созданного фильма.
+     */
     @Test
     public void saveTest() {
         when(movieRepository.save(any(Movie.class))).thenReturn(movie);
@@ -98,6 +110,10 @@ public class MovieServiceTests {
         assertEquals(movieDto1, movieService.create(movieDto1));
     }
 
+    /**
+     * Тест создания фильма с недопустимыми значениями полей (null).
+     * @result Генерируется исключение {@link WrongParametersException}, указывающее на некорректность данных.
+     */
     @Test
     public void saveNullFieldsTest() {
         MovieDto nullFieldDto1 = new MovieDto(null, "Tomm Moore", LocalDate.of(2020, 9, 12), Genre.ANIMATION);
@@ -133,6 +149,10 @@ public class MovieServiceTests {
         assertEquals("Неправильно заполнены поля создаваемого фильма", thrown.getMessage());
     }
 
+    /**
+     * Тест обновления существующего фильма.
+     * @result Фильм с указанным идентификатором обновляется и возвращается обновленный объект {@link MovieDto}.
+     */
     @Test
     public void updateTest() {
         when(movieRepository.findById(movieId)).thenReturn(Optional.of(movie));
@@ -142,6 +162,10 @@ public class MovieServiceTests {
         assertEquals(movieDto1, movieService.update(movieId, movieDto1));
     }
 
+    /**
+     * Тест обновления фильма с ошибками (несуществующий фильм).
+     * @result Генерируется исключение {@link NotFoundAnythingException}, указывающее, что фильм не найден.
+     */
     @Test
     public void updateErrorsTest() {
         when(movieRepository.findById(movieId)).thenReturn(Optional.empty());
@@ -154,6 +178,10 @@ public class MovieServiceTests {
         assertEquals("Фильм с введенным id не найден", thrown.getMessage());
     }
 
+    /**
+     * Тест удаления фильма по идентификатору.
+     * @result Фильм с указанным идентификатором удаляется из базы данных.
+     */
     @Test
     public void deleteTest() {
         when(movieRepository.existsById(movieId)).thenReturn(true);

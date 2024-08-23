@@ -20,19 +20,29 @@ public class DtoTests {
     @Autowired
     private JacksonTester<MovieDto> jsonMovieDto;
 
-    private Movie movie;
     private MovieDto movieDto;
 
+    /**
+     * Инициализация тестовых данных перед каждым тестом.
+     * <p>
+     * Этот метод настраивает DTO-объект фильма с заранее определенными значениями.
+     * Этот объект будет использоваться в последующих тестовых методах.
+     * </p>
+     */
     @BeforeEach
     void init() {
         String title = "Wolfwalkers";
         String director = "Tomm Moore";
         LocalDate releaseDate = LocalDate.of(2020, 9, 12);
         Genre genre = Genre.ANIMATION;
-        movie = new Movie(title, director, releaseDate, genre);
         movieDto = new MovieDto(title, director, releaseDate, genre);
     }
 
+    /**
+     * Проверка корректности сериализации MovieDto в JSON.
+     * @result JSON-вывод будет соответствовать ожидаемым значениям.
+     * @throws Exception если сериализация в JSON завершится неудачно
+     */
     @Test
     void testMovieDto() throws Exception {
         JsonContent<MovieDto> jsonDto = jsonMovieDto.write(movieDto);

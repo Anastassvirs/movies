@@ -49,6 +49,10 @@ public class MovieControllerTests {
         movieDtosPage = new PageImpl<>(movieDtos, PageRequest.of(0, 10), movieDtos.size());
     }
 
+    /**
+     * Тест получения всех фильмов с поддержкой пагинации.
+     * @result Возвращается страница объектов {@link MovieDto}, соответствующая данным, полученным из сервиса.
+     */
     @Test
     public void findAllTest() throws Exception {
         when(movieService.getAllPageable(any(Pageable.class))).thenReturn(movieDtosPage);
@@ -65,6 +69,10 @@ public class MovieControllerTests {
                 .andExpect(jsonPath("$.content[1].title").value("Song of the Sea"));
     }
 
+    /**
+     * Тест поиска фильма по идентификатору.
+     * @result Возвращается объект {@link MovieDto}, соответствующий найденной сущности фильма.
+     */
     @Test
     public void findByIdTest() throws Exception {
         when(movieService.findById(anyLong())).thenReturn(movieDto1);
@@ -78,6 +86,10 @@ public class MovieControllerTests {
                 .andExpect(jsonPath("$.genre").value("ANIMATION"));
     }
 
+    /**
+     * Тест создания нового фильма.
+     * @result Новый фильм сохраняется через сервис, и возвращается объект {@link MovieDto} с данными созданного фильма.
+     */
     @Test
     public void createTest() throws Exception {
         when(movieService.create(any(MovieDto.class))).thenReturn(movieDto1);
@@ -92,6 +104,10 @@ public class MovieControllerTests {
                 .andExpect(jsonPath("$.genre").value("ANIMATION"));
     }
 
+    /**
+     * Тест обновления существующего фильма.
+     * @result Фильм с указанным идентификатором обновляется через сервис, и возвращается обновленный объект {@link MovieDto}.
+     */
     @Test
     public void updateTest() throws Exception {
         when(movieService.update(anyLong(), any(MovieDto.class))).thenReturn(movieDto1);
@@ -106,6 +122,10 @@ public class MovieControllerTests {
                 .andExpect(jsonPath("$.genre").value("ANIMATION"));
     }
 
+    /**
+     * Тест удаления фильма по идентификатору.
+     * @result Фильм с указанным идентификатором удаляется через сервис, и возвращается успешный статус.
+     */
     @Test
     public void deleteTest() throws Exception {
         doNothing().when(movieService).deleteById(anyLong());
