@@ -93,7 +93,8 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = movieMapper.toMovie(movieDto);
         log.debug("СОБЫТИЕ: Добавляем новый фильм: {}", movieDto);
         try {
-            return movieMapper.toMovieDto(movieRepository.save(movie));
+            movie = movieRepository.save(movie);
+            return movieMapper.toMovieDto(movie);
         } catch (Exception e) {
             log.debug("ОШИБКА: Не удалось создать фильм");
             throw new SaveException("Не удалось создать фильм");
